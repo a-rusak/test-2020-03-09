@@ -1,37 +1,54 @@
 <template>
   <div>
     <ul>
-      <TreeItem
-        class="item"
+      <TocTree
         v-for="node of treeData"
         :key="node.id"
         :item="node"
+        :selected-id="selectedId"
+        class="item"
         @select-item="selectItem"
       />
     </ul>
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <hr />
+    <ul>
+      <ContentTree
+        v-for="node of treeData"
+        :key="node.id"
+        :item="node"
+        :selected-id="selectedId"
+      >
+        <SectionView :content="content[node.id]" />
+      </ContentTree>
+    </ul>
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld";
-import TreeItem from "./components/TreeItem";
+import ContentTree from "./components/ContentTree";
+import TocTree from "./components/TocTree";
+import SectionView from "./components/SectionView";
 import { mapActions, mapState } from "vuex";
 import { createTreeFromList } from "./adapters/treeFromList";
 
 export default {
   name: "App",
   components: {
-    HelloWorld,
-    TreeItem
+    ContentTree,
+    TocTree,
+    SectionView
+  },
+  data() {
+    return {
+      selectedId: "2"
+    };
   },
   async mounted() {
     await this.loadToc();
-    // const tree = createTreeFromList(this.toc);
-    // console.log(tree);
+    await this.loadSections();
   },
   computed: {
-    ...mapState(["toc"]),
+    ...mapState(["toc", "content"]),
     treeData() {
       if (Array.isArray(this.toc)) {
         return createTreeFromList(this.toc);
@@ -40,9 +57,10 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["loadToc"]),
-    selectItem(id) {
-      console.log("select", id);
+    ...mapActions(["loadToc", "loadSections"]),
+    selectItem(item) {
+      console.log("select", item);
+      this.selectedId = item.id;
     }
   }
 };

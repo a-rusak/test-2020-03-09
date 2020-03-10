@@ -1,14 +1,15 @@
 <template>
   <li>
-    <div :class="{ bold: isFolder }" @click="select(item)">
+    <div :class="{ selected: item.id === selectedId }" @click="select(item)">
       {{ item.name }}
     </div>
     <ul v-if="isFolder">
-      <TreeItem
+      <TocTree
         class="item"
-        v-for="(child, index) in item.children"
-        :key="index"
+        v-for="child of item.children"
+        :key="child.id"
         :item="child"
+        :selected-id="selectedId"
         @select-item="select"
       />
     </ul>
@@ -17,19 +18,27 @@
 
 <script>
 export default {
-  name: "TreeItem",
+  name: "TocTree",
   props: {
-    item: Object
+    item: Object,
+    selectedId: String
   },
   computed: {
-    isFolder: function() {
+    isFolder() {
       return this.item.children && this.item.children.length;
     }
   },
   methods: {
     select(item) {
+      // console.log("select", item);
       this.$emit("select-item", item);
     }
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.selected {
+  background-color: lightblue;
+}
+</style>

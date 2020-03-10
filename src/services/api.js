@@ -7,11 +7,9 @@ const config = {
 
 const instance = axios.create(config);
 
-const transformResponse = data => {
-  return data;
-};
+export const loadToc = () => instance.get("toc.json");
 
-export const loadToc = () =>
-  instance.get("toc.json", {
-    transformResponse
+export const loadSection = id =>
+  instance.get(`content-${id}.html`, {
+    responseType: "text"
   });

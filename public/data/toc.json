@@ -1,0 +1,38 @@
+[
+  {
+    "ID": "1",
+    "Title": "Общие сведения",
+    "Parent_ID": null,
+    "Description": "Общие сведения"
+  },
+  {
+    "ID": "2",
+    "Title": "Увлечения",
+    "Parent_ID": "1",
+    "Description": "Увлечения"
+  },
+  {
+    "ID": "3",
+    "Title": "Семья",
+    "Parent_ID": "2",
+    "Description": "Семья"
+  },
+  {
+    "ID": "4",
+    "Title": "Образование",
+    "Parent_ID": null,
+    "Description": "Образование"
+  },
+  {
+    "ID": "5",
+    "Title": "Школа",
+    "Parent_ID": "4",
+    "Description": "Семья"
+  },
+  {
+    "ID": "6",
+    "Title": "Курсы",
+    "Parent_ID": "4",
+    "Description": "Курсы"
+  }
+]

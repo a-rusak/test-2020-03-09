@@ -16,17 +16,14 @@ export default new Vuex.Store({
     toc: null,
     inView: {},
     loadingStatuses: {},
-    content: {}
+    content: {},
+    selectedId: ""
   },
   getters: {
     inViewIds({ inView }) {
       return Object.entries(inView)
         .filter(([, isInView]) => isInView)
         .map(([id]) => id);
-      // .sort((a, b) => Number(a) - Number(b));
-    },
-    selectedId(_, { inViewIds }) {
-      return inViewIds[0];
     },
     failedIds({ loadingStatuses }) {
       return Object.entries(loadingStatuses)
@@ -52,9 +49,21 @@ export default new Vuex.Store({
         ...state.loadingStatuses,
         [id]: status
       };
+    },
+    setSelectedId(state, id) {
+      state.selectedId = id;
     }
   },
   actions: {
+    updateSelectedId({ commit, getters: { inViewIds } }, id) {
+      if (inViewIds.length > 0) {
+        if (id && inViewIds.includes(id)) {
+          commit("setSelectedId", id);
+        } else {
+          commit("setSelectedId", inViewIds[0]);
+        }
+      }
+    },
     async loadToc({ commit }) {
       const { data } = await loadToc();
       commit("setToc", data);

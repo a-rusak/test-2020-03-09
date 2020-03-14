@@ -1,8 +1,8 @@
 <template>
   <div
     v-html="content"
-    class="section-content"
-    :class="{ 'section-content--error': failedIds.includes(id) }"
+    class="section-view"
+    :class="{ 'section-view--error': failedIds.includes(id) }"
   />
 </template>
 
@@ -22,8 +22,7 @@ export default {
 </script>
 
 <style lang="scss">
-.section-content {
-  min-height: 12em;
+.section-view {
   padding: 1em;
   border: 2px solid #eee;
   border-radius: 0.5em;

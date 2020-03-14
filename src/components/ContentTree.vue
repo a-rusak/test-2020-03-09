@@ -1,7 +1,10 @@
 <template>
   <li>
     <article v-observe="observer" :data-id="item.id">
-      <h1>{{ item.name }}</h1>
+      <h1>{{ item.id }} - {{ item.name }}</h1>
+      <p>
+        <small>{{ item.description }}</small>
+      </p>
       <slot></slot>
     </article>
     <ul>
@@ -13,7 +16,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapMutations, mapGetters } from "vuex";
 import SectionView from "./SectionView";
 import vObserve from "../directives/v-observe";
 
@@ -34,7 +37,8 @@ export default {
     item: Object
   },
   computed: {
-    ...mapState(["content", "inView"])
+    ...mapState(["content", "inView"]),
+    ...mapGetters(["failedIds"])
   },
   mounted() {
     this.observer = new IntersectionObserver(this.handleIntersection);

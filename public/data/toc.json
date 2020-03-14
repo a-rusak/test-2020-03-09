@@ -14,7 +14,7 @@
   {
     "ID": "3",
     "Title": "Семья",
-    "Parent_ID": "2",
+    "Parent_ID": "1",
     "Description": "Семья"
   },
   {
@@ -34,5 +34,23 @@
     "Title": "Курсы",
     "Parent_ID": "4",
     "Description": "Курсы"
+  },
+  {
+    "ID": "7",
+    "Title": "Проф. навыки",
+    "Parent_ID": null,
+    "Description": "Проф. навыки"
+  },
+  {
+    "ID": "8",
+    "Title": "Хард скилы",
+    "Parent_ID": "7",
+    "Description": "Хард скилы"
+  },
+  {
+    "ID": "9",
+    "Title": "Софт скилы",
+    "Parent_ID": "7",
+    "Description": "Софт скилы"
   }
 ]

@@ -40,7 +40,7 @@ import {
 
 import { saveSection } from "../services/api";
 import { SavingStatus } from "../common/NetworkStatusEnum";
-import { AppConfig } from "../common/AppConfig";
+import { AppConfig } from "../AppConfig";
 
 import EditorMenuBarToolbar from "./EditorMenuBarToolbar";
 import EditorMenuBubbleToolbar from "./EditorMenuBubbleToolbar";

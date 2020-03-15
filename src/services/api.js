@@ -1,7 +1,8 @@
 import axios from "axios";
+import { AppConfig } from "../AppConfig";
 
 const config = {
-  baseURL: "data/",
+  baseURL: AppConfig.BASE_URL,
   responseType: "json"
 };
 

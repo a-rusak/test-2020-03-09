@@ -5,11 +5,17 @@ const config = {
   responseType: "json"
 };
 
-const instance = axios.create(config);
+const http = axios.create(config);
 
-export const loadToc = () => instance.get("toc.json");
+export const loadToc = () => http.get("toc.json");
 
 export const loadSection = id =>
-  instance.get(`content-${id}.html`, {
+  http.get(`content-${id}.html`, {
     responseType: "text"
+  });
+
+export const saveSection = ({ id, content }) =>
+  http.post(`save`, {
+    id,
+    content
   });

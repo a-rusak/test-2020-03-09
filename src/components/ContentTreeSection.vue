@@ -6,6 +6,12 @@
       'section-view--edit': isEditing
     }"
   >
+    <span
+      class="saving-status"
+      :class="savingStatusCssClass"
+      v-show="showSavingStatus"
+      >Saving {{ savingStatus }}</span
+    >
     <EditorMenuBarToolbar :editor="editor" />
     <EditorMenuBubbleToolbar :editor="editor" />
     <EditorContent :editor="editor" class="editor-content" />
@@ -31,8 +37,15 @@ import {
   Underline,
   History
 } from "tiptap-extensions";
+
+import { saveSection } from "../services/api";
+import { SavingStatus } from "../common/NetworkStatusEnum";
+import { AppConfig } from "../common/AppConfig";
+
 import EditorMenuBarToolbar from "./EditorMenuBarToolbar";
 import EditorMenuBubbleToolbar from "./EditorMenuBubbleToolbar";
+
+const { SAVE_TIMEOUT_MS } = AppConfig;
 
 export default {
   name: "ContentTreeSection",
@@ -48,6 +61,7 @@ export default {
   data() {
     return {
       isEditing: false,
+      savingStatus: SavingStatus.NOT_ASKED,
       editorContent: this.content
     };
   },
@@ -85,11 +99,49 @@ export default {
           new TableRow()
         ],
         onFocus: options => this.onEditorFocus(options),
-        onBlur: options => this.onEditorBlur(options)
+        onBlur: options => this.onEditorBlur(options),
+        onUpdate: ({ getHTML }) => {
+          this.onUpdateContent(getHTML());
+        }
       });
+    },
+
+    showSavingStatus() {
+      return (
+        this.savingStatus === SavingStatus.SAVED ||
+        this.savingStatus === SavingStatus.FAILED
+      );
+    },
+
+    savingStatusCssClass() {
+      switch (this.savingStatus) {
+        case SavingStatus.SAVED:
+          return "saving-status--success";
+        case SavingStatus.FAILED:
+          return "saving-status--fail";
+        default:
+          return "";
+      }
     }
   },
   methods: {
+    onUpdateContent(content) {
+      if (this.savingStatus === SavingStatus.SAVING) return;
+
+      this.savingStatus = SavingStatus.SAVING;
+      setTimeout(async () => {
+        try {
+          await saveSection({
+            id: this.id,
+            content
+          });
+
+          this.savingStatus = SavingStatus.LOADED;
+        } catch (err) {
+          this.savingStatus = SavingStatus.FAILED;
+        }
+      }, SAVE_TIMEOUT_MS);
+    },
     onEditorFocus() {
       this.isEditing = true;
       clearTimeout(this.blurTimer);
@@ -142,8 +194,6 @@ export default {
         border: 2px solid #ddd;
         padding: 3px 5px;
         vertical-align: top;
-        -webkit-box-sizing: border-box;
-        box-sizing: border-box;
         position: relative;
 
         p {
@@ -151,6 +201,20 @@ export default {
         }
       }
     }
+  }
+}
+
+.saving-status {
+  font-size: 0.75em;
+  position: absolute;
+  right: 0.5rem;
+  top: 0.25rem;
+
+  &--success {
+    color: green;
+  }
+  &--fail {
+    color: red;
   }
 }
 </style>

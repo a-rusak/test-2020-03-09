@@ -1,15 +1,9 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import { loadToc, loadSection } from "../services/api";
+import { LoadingStatus } from "../common/NetworkStatusEnum";
 
 Vue.use(Vuex);
-
-const LoadingStatus = {
-  NOT_ASKED: "notAsked",
-  LOADING: "loading",
-  LOADED: "loaded",
-  FAILED: "failed"
-};
 
 export default new Vuex.Store({
   state: {

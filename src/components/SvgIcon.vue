@@ -20,7 +20,7 @@ export default {
     },
     size: {
       type: Number,
-      default: 16
+      default: 24
     },
     title: {
       type: String,

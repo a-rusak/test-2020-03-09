@@ -75,12 +75,6 @@ export default {
 </script>
 
 <style lang="scss">
-body {
-  font-family: sans-serif;
-  padding: 0;
-  margin: 0;
-}
-
 .layout {
   display: grid;
   grid-template-columns: 2fr 5fr;

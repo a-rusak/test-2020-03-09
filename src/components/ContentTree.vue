@@ -9,7 +9,7 @@
     </article>
     <ul>
       <ContentTree v-for="child of item.children" :key="child.id" :item="child">
-        <SectionView :content="content[child.id]" :id="child.id" />
+        <ContentTreeSection :content="content[child.id]" :id="child.id" />
       </ContentTree>
     </ul>
   </li>
@@ -17,13 +17,13 @@
 
 <script>
 import { mapState, mapMutations, mapGetters } from "vuex";
-import SectionView from "./SectionView";
+import ContentTreeSection from "./ContentTreeSection";
 import vObserve from "../directives/v-observe";
 
 export default {
   name: "ContentTree",
   components: {
-    SectionView
+    ContentTreeSection
   },
   directives: {
     observe: vObserve

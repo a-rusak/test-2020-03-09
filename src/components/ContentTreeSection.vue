@@ -239,7 +239,7 @@ import {
 import SvgIcon from "./SvgIcon";
 
 export default {
-  name: "SectionView",
+  name: "ContentTreeSection",
   components: {
     EditorContent,
     EditorMenuBar,

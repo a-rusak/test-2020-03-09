@@ -15,7 +15,7 @@
     <main class="layout__main">
       <ul>
         <ContentTree v-for="node of treeData" :key="node.id" :item="node">
-          <SectionView :content="content[node.id]" :id="node.id" />
+          <ContentTreeSection :content="content[node.id]" :id="node.id" />
         </ContentTree>
       </ul>
     </main>
@@ -25,7 +25,7 @@
 <script>
 import ContentTree from "./components/ContentTree";
 import TocTree from "./components/TocTree";
-import SectionView from "./components/SectionView";
+import ContentTreeSection from "./components/ContentTreeSection";
 import { mapActions, mapState, mapGetters, mapMutations } from "vuex";
 import { createTreeFromList } from "./adapters/treeFromList";
 import VueScrollTo from "vue-scrollto";
@@ -35,7 +35,7 @@ export default {
   components: {
     ContentTree,
     TocTree,
-    SectionView
+    ContentTreeSection
   },
   mounted() {
     this.loadToc();

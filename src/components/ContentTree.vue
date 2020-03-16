@@ -1,18 +1,16 @@
 <template>
-  <li>
+  <div>
     <article v-observe="observer" :data-id="item.id">
-      <h1>{{ item.id }} - {{ item.name }}</h1>
+      <component :is="`h${item.depth}`">{{ item.name }}</component>
       <p>
         <small>{{ item.description }}</small>
       </p>
       <slot></slot>
     </article>
-    <ul>
-      <ContentTree v-for="child of item.children" :key="child.id" :item="child">
-        <ContentTreeSection :content="content[child.id]" :id="child.id" />
-      </ContentTree>
-    </ul>
-  </li>
+    <ContentTree v-for="child of item.children" :key="child.id" :item="child">
+      <ContentTreeSection :content="content[child.id]" :id="child.id" />
+    </ContentTree>
+  </div>
 </template>
 
 <script>

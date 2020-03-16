@@ -1,11 +1,14 @@
 <template>
-  <li>
-    <div :class="{ selected: item.id === selectedId }" @click="select(item)">
+  <li class="toc__item">
+    <a
+      class="toc__link"
+      :class="{ 'is-selected': item.id === selectedId }"
+      @click.prevent="select(item)"
+    >
       {{ item.name }}
-    </div>
-    <ul v-if="isFolder">
+    </a>
+    <ul class="toc__list" v-if="isFolder">
       <TocTree
-        class="item"
         v-for="child of item.children"
         :key="child.id"
         :item="child"
@@ -36,8 +39,23 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.selected {
-  background-color: lightblue;
+<style lang="scss">
+.toc {
+  &__list {
+    list-style: none;
+  }
+  &__item {
+  }
+
+  &__link {
+    cursor: pointer;
+    display: block;
+    padding: 0.5em 1em;
+    border-radius: 1em;
+
+    &.is-selected {
+      background-color: lightblue;
+    }
+  }
 }
 </style>

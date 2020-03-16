@@ -1,23 +1,27 @@
 <template>
-  <div class="layout">
+  <div class="layout" :class="{ 'show-nav': showNav }">
     <aside class="layout__aside">
+      <button
+        class="layout__toggler"
+        :class="{ 'show-nav': showNav }"
+        @click.prevent="showNav = !showNav"
+      >
+        <SvgIcon name="arrow_forward" />
+      </button>
       <ul class="nav">
         <TocTree
           v-for="node of treeData"
           :key="node.id"
           :item="node"
           :selected-id="selectedId"
-          class="item"
           @select-item="selectItem"
         />
       </ul>
     </aside>
     <main class="layout__main">
-      <ul>
-        <ContentTree v-for="node of treeData" :key="node.id" :item="node">
-          <ContentTreeSection :content="content[node.id]" :id="node.id" />
-        </ContentTree>
-      </ul>
+      <ContentTree v-for="node of treeData" :key="node.id" :item="node">
+        <ContentTreeSection :content="content[node.id]" :id="node.id" />
+      </ContentTree>
     </main>
   </div>
 </template>
@@ -29,13 +33,20 @@ import ContentTreeSection from "./components/ContentTreeSection";
 import { mapActions, mapState, mapGetters, mapMutations } from "vuex";
 import { createTreeFromList } from "./adapters/treeFromList";
 import VueScrollTo from "vue-scrollto";
+import SvgIcon from "./components/SvgIcon";
 
 export default {
   name: "App",
   components: {
     ContentTree,
     TocTree,
-    ContentTreeSection
+    ContentTreeSection,
+    SvgIcon
+  },
+  data() {
+    return {
+      showNav: true
+    };
   },
   mounted() {
     this.loadToc();
@@ -75,21 +86,59 @@ export default {
 </script>
 
 <style lang="scss">
+$show-nav: ".layout.show-nav &";
+
 .layout {
   display: grid;
-  grid-template-columns: 2fr 5fr;
-  grid-gap: 1em;
+  grid-template-columns: 2em auto;
+
+  &.show-nav {
+    grid-template-columns: 300px auto;
+    grid-gap: 1em;
+  }
 
   &__aside {
-    padding: 1em;
+    #{$show-nav} {
+      padding: 1em;
+      border-right: 1px solid #ddd;
+    }
   }
   &__main {
     padding: 1em;
+  }
+  &__toggler {
+    position: fixed;
+    top: 0;
+    left: 0;
+    border: none;
+    width: 2em;
+    height: 2em;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .svg-icon {
+      transition: transform 0.2s;
+    }
+
+    #{$show-nav} {
+      .svg-icon {
+        transform: rotate(180deg);
+      }
+    }
   }
 }
 
 .nav {
   position: sticky;
-  top: 2em;
+  top: 4em;
+  list-style: none;
+  margin: 0;
+  padding-left: 0;
+  display: none;
+
+  #{$show-nav} {
+    display: block;
+  }
 }
 </style>
